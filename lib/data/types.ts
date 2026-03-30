@@ -3,23 +3,28 @@
  * UI, stores, and calculators import from `lib/data` only these shapes (not vendor payloads).
  */
 
+import type { CurrencyCode } from "@/lib/currency";
+
 /** YYYY-MM billing / reporting period (string keeps adapters simple). */
 export type PeriodId = string;
 
 export interface PillarAmounts {
-  cloudUsd: number;
-  aiUsd: number;
-  saasUsd: number;
-  laborUsd: number;
+  /** Amounts in canonical currency (`baseline.currency`), PoC: SEK. */
+  cloud: number;
+  ai: number;
+  saas: number;
+  labor: number;
 }
 
 export interface BaselinePeriod {
   periodId: PeriodId;
-  currency: "USD";
+  /** Stored amounts (pillars, revenue) use this currency — PoC uses **SEK** for Nordics. */
+  currency: CurrencyCode;
   pillars: PillarAmounts;
   outcomes: {
     deliveries: number;
-    revenueUsd: number;
+    /** Revenue in same unit as `currency` (SEK in mock). */
+    revenue: number;
   };
 }
 
@@ -32,8 +37,10 @@ export interface ForecastStub {
 
 export interface TrendPoint {
   periodId: PeriodId;
-  revenueUsd: number;
-  techSpendUsd: number;
+  /** Revenue in canonical currency (SEK). */
+  revenue: number;
+  /** Total digital tech spend in canonical currency (SEK). */
+  techSpend: number;
   deliveries: number;
 }
 

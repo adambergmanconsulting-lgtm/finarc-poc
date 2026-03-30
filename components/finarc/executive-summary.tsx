@@ -1,26 +1,21 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { formatCurrencyAmount } from "@/lib/currency";
 import {
   costPerDelivery,
   digitalSpendToRevenueRatio,
   totalDigitalSpend,
 } from "@/lib/metrics";
 import type { FinArcSnapshot } from "@/lib/data";
-
-function formatUsd(n: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
+import { useFinArcStore } from "@/lib/finarc-store";
+import { cn } from "@/lib/utils";
 
 function formatPct(n: number) {
   return `${(n * 100).toFixed(1)}%`;
 }
 
 export function ExecutiveSummary({ snapshot }: { snapshot: FinArcSnapshot }) {
+  const displayCurrency = useFinArcStore((s) => s.displayCurrency);
   const { baseline, trendHistory, meta } = snapshot;
   const spend = totalDigitalSpend(baseline.pillars);
   const cpd = costPerDelivery(baseline);
@@ -28,8 +23,8 @@ export function ExecutiveSummary({ snapshot }: { snapshot: FinArcSnapshot }) {
 
   let momPct: number | null = null;
   if (trendHistory && trendHistory.length >= 2) {
-    const prev = trendHistory[trendHistory.length - 2]!.techSpendUsd;
-    const cur = trendHistory[trendHistory.length - 1]!.techSpendUsd;
+    const prev = trendHistory[trendHistory.length - 2]!.techSpend;
+    const cur = trendHistory[trendHistory.length - 1]!.techSpend;
     if (prev > 0) momPct = (cur - prev) / prev;
   }
 
@@ -37,10 +32,14 @@ export function ExecutiveSummary({ snapshot }: { snapshot: FinArcSnapshot }) {
     <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <KpiCard
         label="Total digital spend"
-        value={formatUsd(spend)}
+        value={formatCurrencyAmount(spend, displayCurrency)}
         sub={momPct !== null ? `MoM ${momPct >= 0 ? "+" : ""}${formatPct(momPct)}` : undefined}
       />
-      <KpiCard label="Cost / delivery" value={formatUsd(cpd)} sub="Primary efficiency KPI" />
+      <KpiCard
+        label="Cost / delivery"
+        value={formatCurrencyAmount(cpd, displayCurrency)}
+        sub="Primary efficiency KPI"
+      />
       <KpiCard
         label="Tech spend ÷ revenue"
         value={formatPct(intensity)}

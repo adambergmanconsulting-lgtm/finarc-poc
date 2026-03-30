@@ -1,24 +1,18 @@
 "use client";
 
+import { formatCurrencyAmount } from "@/lib/currency";
 import { HORIZON_PRESETS } from "@/lib/horizons";
 import { projectScenario } from "@/lib/projection";
 import { useFinArcStore } from "@/lib/finarc-store";
 import { cn } from "@/lib/utils";
 import type { FinArcSnapshot } from "@/lib/data";
 
-function formatUsd(n: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
-
 export function LeverPlayground({ snapshot }: { snapshot: FinArcSnapshot }) {
   const levers = useFinArcStore((s) => s.levers);
   const setLevers = useFinArcStore((s) => s.setLevers);
   const horizonId = useFinArcStore((s) => s.horizonId);
   const setHorizonId = useFinArcStore((s) => s.setHorizonId);
+  const displayCurrency = useFinArcStore((s) => s.displayCurrency);
 
   const projection = projectScenario(snapshot, levers, horizonId);
 
@@ -28,7 +22,8 @@ export function LeverPlayground({ snapshot }: { snapshot: FinArcSnapshot }) {
         Lever playground
       </h2>
       <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
-        Adjust strategy mix — projection updates instantly (mock formula on AI pillar).
+        Adjust strategy mix — projection updates instantly (mock formula on AI pillar). Amounts stored in
+        SEK; display uses mock FX for EUR/USD.
       </p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -83,7 +78,7 @@ export function LeverPlayground({ snapshot }: { snapshot: FinArcSnapshot }) {
           Projected savings (illustrative)
         </p>
         <p className="mt-1 text-2xl font-semibold tabular-nums text-[hsl(var(--positive))]">
-          {formatUsd(projection.headlineSavingsUsd)}
+          {formatCurrencyAmount(projection.headlineSavings, displayCurrency)}
         </p>
         <p className="mt-1 text-xs text-[hsl(var(--muted-foreground))]">
           Annualized mock over {horizonId === "3y" ? "3-year" : "12-month"} horizon — not audit-grade.

@@ -1,8 +1,8 @@
 import type { BaselinePeriod, PillarAmounts } from "@/lib/data";
 
-/** Sum of pillar spend — single definition for KPIs and export. */
+/** Sum of pillar spend (canonical currency, PoC: SEK). */
 export function totalDigitalSpend(pillars: PillarAmounts): number {
-  return pillars.cloudUsd + pillars.aiUsd + pillars.saasUsd + pillars.laborUsd;
+  return pillars.cloud + pillars.ai + pillars.saas + pillars.labor;
 }
 
 /**
@@ -15,11 +15,10 @@ export function costPerDelivery(baseline: BaselinePeriod): number {
 }
 
 /**
- * Tech spend as a share of revenue (0–1). When SPEC locks “Digital Margin,” rename or
- * combine with margin% — this is a stable interim efficiency ratio for dashboards.
+ * Tech spend as a share of revenue (0–1). Revenue in canonical currency.
  */
 export function digitalSpendToRevenueRatio(baseline: BaselinePeriod): number {
-  const r = baseline.outcomes.revenueUsd;
+  const r = baseline.outcomes.revenue;
   if (r <= 0) return 0;
   return totalDigitalSpend(baseline.pillars) / r;
 }

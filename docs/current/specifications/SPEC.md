@@ -222,6 +222,7 @@ Keep **seams** narrow so the PoC does **not** sprawl, but **future** work has **
 | Module / area | PoC | Long-term (same seam) |
 |---------------|-----|------------------------|
 | **`lib/data`** + **`FinArcDataSource`** | Mock adapter | **API** routes, **ETL**, **FOCUS** ingest → **map** to **`FinArcSnapshot`** |
+| **`lib/currency.ts`** | **SEK**-canonical **storage**; **mock** **FX** + **`formatCurrencyAmount`** for **EUR** / **USD** **display**; **`displayCurrency`** in Zustand | **Live** **FX** **API**, **treasury** **rates**, **locale**-aware **formatting** |
 | **`lib/metrics.ts`** | Pure **KPI** helpers (**total spend**, **CpD**, **spend/revenue**) | Richer **definitions**, **segment** splits — **UI** still imports **one** module |
 | **`lib/levers.ts`** | **`LeverState`** + **defaults** (add fields as sliders appear) | Validation, **presets**, **saved** scenarios |
 | **`lib/horizons.ts`** | **`HORIZON_PRESETS`** (no arbitrary ranges in v1) | More **presets**, **fiscal** **calendar** |
@@ -240,7 +241,7 @@ Keep **seams** narrow so the PoC does **not** sprawl, but **future** work has **
 
 | Label | Definition for v1 | Notes |
 |-------|---------------------|--------|
-| **Total digital spend** | Sum of **Cloud + AI + SaaS + Labor** (USD) | Single source: **`totalDigitalSpend()`** |
+| **Total digital spend** | Sum of **Cloud + AI + SaaS + Labor** — stored in **SEK** (Nordic PoC); **EUR/USD** are **display** via mock FX (`lib/currency.ts`) | Single source: **`totalDigitalSpend()`** |
 | **Cost per delivery (CpD)** | Total digital spend ÷ **deliveries** | **Primary** efficiency **hero** number on the dashboard |
 | **Tech spend intensity** | Total digital spend ÷ **revenue** (ratio 0–1 or %) | **Secondary** KPI — “digital load” on revenue |
 | **“Digital Margin” (product language)** | Use the **term** in copy for **recognition**; **do not** mix with **accounting gross margin %** in v1 unless the team adds an explicit **P&L** line later | Avoid ambiguous **Spend ÷ Revenue** **as** “margin” **without** a footnote |
@@ -249,7 +250,7 @@ Keep **seams** narrow so the PoC does **not** sprawl, but **future** work has **
 
 - Total Digital Spend (MoM % change)
 - **Efficiency headline:** **Cost per delivery** + optional **tech spend % of revenue** — large KPI with trend sparkline and color-coded score (product may still **label** the block **Digital Margin** in prose)
-- **Top anomaly alert** (e.g., “$4,200 AI waste spike — 62% internal chat on GPT-4”)
+- **Top anomaly alert** (e.g., “**42 000 SEK** AI waste spike — 62% internal chat on GPT-4”)
 - **Quick sustainability tile** (e.g., “Carbon intensity: 18% above optimal”)
 
 ### B. Trend Dashboard

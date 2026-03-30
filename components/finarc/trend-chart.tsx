@@ -11,17 +11,36 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { convertSekToDisplay, formatCurrencyAmount, type CurrencyCode } from "@/lib/currency";
 import type { TrendPoint } from "@/lib/data";
 
-export function TrendChart({ points }: { points: TrendPoint[] }) {
+function axisLabelRevenue(display: CurrencyCode): string {
+  if (display === "SEK") return "Revenue (M SEK)";
+  if (display === "EUR") return "Revenue (M €)";
+  return "Revenue (M $)";
+}
+
+function axisLabelTech(display: CurrencyCode): string {
+  if (display === "SEK") return "Tech spend (k SEK)";
+  if (display === "EUR") return "Tech spend (k €)";
+  return "Tech spend (k $)";
+}
+
+export function TrendChart({
+  points,
+  displayCurrency,
+}: {
+  points: TrendPoint[];
+  displayCurrency: CurrencyCode;
+}) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const data = points.map((p) => ({
+  const data = points.map((p, index) => ({
+    index,
     month: p.periodId.slice(5),
-    revenue: p.revenueUsd / 1_000_000,
-    techSpend: p.techSpendUsd / 1_000,
-    cpd: p.techSpendUsd / p.deliveries,
+    revenue: convertSekToDisplay(p.revenue, displayCurrency) / 1_000_000,
+    techSpend: convertSekToDisplay(p.techSpend, displayCurrency) / 1_000,
   }));
 
   if (!mounted) {
@@ -41,15 +60,27 @@ export function TrendChart({ points }: { points: TrendPoint[] }) {
           <YAxis
             yAxisId="left"
             tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickFormatter={(v) => `$${v}M`}
-            label={{ value: "Revenue ($M)", angle: -90, position: "insideLeft", fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+            tickFormatter={(v) => `${v.toFixed(1)}`}
+            label={{
+              value: axisLabelRevenue(displayCurrency),
+              angle: -90,
+              position: "insideLeft",
+              fill: "hsl(var(--muted-foreground))",
+              fontSize: 11,
+            }}
           />
           <YAxis
             yAxisId="right"
             orientation="right"
             tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickFormatter={(v) => `$${v}k`}
-            label={{ value: "Tech spend ($k)", angle: 90, position: "insideRight", fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+            tickFormatter={(v) => `${v.toFixed(0)}`}
+            label={{
+              value: axisLabelTech(displayCurrency),
+              angle: 90,
+              position: "insideRight",
+              fill: "hsl(var(--muted-foreground))",
+              fontSize: 11,
+            }}
           />
           <Tooltip
             contentStyle={{
@@ -58,10 +89,17 @@ export function TrendChart({ points }: { points: TrendPoint[] }) {
               borderRadius: "0.5rem",
             }}
             labelStyle={{ color: "hsl(var(--foreground))" }}
-            formatter={(value, name) => {
-              const v = typeof value === "number" ? value : Number(value);
-              if (name === "revenue") return [`$${v.toFixed(2)}M`, "Revenue"];
-              if (name === "techSpend") return [`$${(v * 1000).toLocaleString()}`, "Tech spend"];
+            formatter={(value, name, item) => {
+              const payload = item?.payload as { index?: number } | undefined;
+              const idx = payload?.index ?? 0;
+              const p = points[idx];
+              if (!p) return [String(value), String(name)];
+              if (name === "revenue") {
+                return [formatCurrencyAmount(p.revenue, displayCurrency), "Revenue"];
+              }
+              if (name === "techSpend") {
+                return [formatCurrencyAmount(p.techSpend, displayCurrency), "Tech spend"];
+              }
               return [String(value), String(name)];
             }}
           />
@@ -87,7 +125,7 @@ export function TrendChart({ points }: { points: TrendPoint[] }) {
         </ComposedChart>
       </ResponsiveContainer>
       <p className="mt-2 text-center text-xs text-[hsl(var(--muted-foreground))]">
-        Cost per delivery trends with tech spend — see lever playground for projected trajectory (next).
+        Cost per delivery moves with tech spend — lever playground applies projected trajectory (next).
       </p>
     </div>
   );
