@@ -8,7 +8,7 @@
 
 ## Philosophy
 
-- **One source of truth for color and radius:** `theme/finarc-theme.css` at the repo root.
+- **One source of truth for color and radius:** `app/theme/finarc-theme.css`.
 - **Components consume semantic tokens** — e.g. “card,” “primary,” “positive,” “chart-1” — not raw hex in JSX.
 - **shadcn/ui alignment:** Variable names follow the usual `--background`, `--foreground`, `--primary`, … pattern so generated components map cleanly.
 - **Default mood:** **Nordic-inspired dark** (see [SPEC.md](../SPEC.md) — polish, tooltips, scannability). Light mode can be a second block later (e.g. `:root` vs `.dark` or `data-theme`).
@@ -19,18 +19,18 @@
 
 | File | Role |
 |------|------|
-| `theme/finarc-theme.css` | **Edit here first** for global visual changes. Defines `:root` CSS custom properties. |
+| `app/theme/finarc-theme.css` | **Edit here first** for global visual changes. Defines `:root` CSS custom properties. |
 | `app/globals.css` | `@import` the theme file, then Tailwind layers; optional base typography. |
 | `tailwind.config.*` | Map `background`, `foreground`, `chart-*`, etc. to `hsl(var(--…))` or project convention. |
 | `components.json` | shadcn — keep `cssVariables: true` so components use tokens. |
 
-**PoC rule:** If you change a color in a component, you probably should add or reuse a variable in `finarc-theme.css` instead.
+**PoC rule:** If you change a color in a component, you probably should add or reuse a variable in `app/theme/finarc-theme.css` instead.
 
 ---
 
 ## Token table (semantic)
 
-Values live in `theme/finarc-theme.css`; this table documents **meaning** so charts, alerts, and KPIs stay consistent.
+Values live in `app/theme/finarc-theme.css`; this table documents **meaning** so charts, alerts, and KPIs stay consistent.
 
 | Token group | Use |
 |-------------|-----|
@@ -48,7 +48,7 @@ Values live in `theme/finarc-theme.css`; this table documents **meaning** so cha
 
 ## Quick restyle checklist
 
-1. Open `theme/finarc-theme.css`.
+1. Open `app/theme/finarc-theme.css`.
 2. Adjust HSL (or OKLCH) tuples **without** renaming variables unless you update Tailwind mapping and this doc.
 3. Verify: focus visible, chart distinction, positive/negative semantics, WCAG contrast on `--foreground` vs `--background` / `--card`.
 4. Snapshot or list any **hard-coded** colors still in components — eliminate in favor of tokens.

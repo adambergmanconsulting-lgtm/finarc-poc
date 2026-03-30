@@ -11,7 +11,7 @@ npm run dev:setup   # install deps (Node 18+)
 npm run dev         # http://localhost:3000
 ```
 
-Or on Windows: `start.bat` or `.\start.ps1`
+Or on Windows: `scripts\start.bat` or `.\scripts\start.ps1`
 
 ## Deploy (Vercel CLI)
 

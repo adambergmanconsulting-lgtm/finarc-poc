@@ -25,7 +25,7 @@ Positioning & access: [positioning-and-access.md](positioning-and-access.md).
 |------|------------|
 | Product scope / features | `docs/current/specifications/SPEC.md` |
 | Market hypothesis, integrations, vs competition | [positioning-and-access.md](positioning-and-access.md) |
-| Styling, rebrand, dark/light | `theme-and-tokens.md` → root `theme/finarc-theme.css` |
+| Styling, rebrand, dark/light | `theme-and-tokens.md` → `app/theme/finarc-theme.css` |
 | Components, layout, finance UX | `ui-principles.md` |
 | Code structure, dedupe, maintainability | [development/coding-hygiene.md](development/coding-hygiene.md) |
 | Documentation cleanup | `DOCUMENTATION-PRINCIPLES.md` |

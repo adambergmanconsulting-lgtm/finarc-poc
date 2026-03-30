@@ -19,7 +19,7 @@ function main() {
   }
   console.log(`[finarc-poc] Node ${process.version} OK. Installing dependencies…`);
   execSync("npm install", { stdio: "inherit", cwd: root, shell: true });
-  console.log("[finarc-poc] Done. Run: npm run dev   or   .\\start.ps1");
+  console.log("[finarc-poc] Done. Run: npm run dev   or   .\\scripts\\start.ps1");
 }
 
 main();

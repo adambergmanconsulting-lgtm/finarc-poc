@@ -34,7 +34,7 @@ Aligned with the hygiene doc; short labels for reviews and commits.
 |----|-----------|
 | **EPP-01** | **Dedupe:** Single source of truth for copy, theme tokens, mock schema shapes, and non-trivial calculations (prefer one store / module). |
 | **EPP-02** | **Modularize:** Extract when a file mixes multiple concerns or grows hard to scan. |
-| **EPP-03** | **Tokens first:** No hard-coded hex in components — use CSS variables or Tailwind mapped to `theme/finarc-theme.css`. |
+| **EPP-03** | **Tokens first:** No hard-coded hex in components — use CSS variables or Tailwind mapped to `app/theme/finarc-theme.css`. |
 | **EPP-04** | **Scenario integrity:** Lever changes and exports must trace back to the same calculation helpers as the UI. |
 | **EPP-05** | **Explicit user control:** Levers and NL are user-driven; no silent “optimization” that changes numbers without a visible cause. |
 | **EPP-06** | **LLM-friendly structure:** Obvious file names, typed props, thin UI vs. pure `lib/` math. |
@@ -65,7 +65,7 @@ Aligned with the hygiene doc; short labels for reviews and commits.
 |------|--------------------------------|
 | App shell / routes | `app/` |
 | UI components | `components/` |
-| Global styles + theme import | `app/globals.css` imports `theme/finarc-theme.css` |
+| Global styles + theme import | `app/globals.css` imports `app/theme/finarc-theme.css` |
 | State, scenarios, calculations | `lib/` or `stores/` |
 | Mock FOCUS data | `data/` or `lib/mock/` |
 

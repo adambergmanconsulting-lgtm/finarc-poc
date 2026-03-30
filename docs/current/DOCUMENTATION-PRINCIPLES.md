@@ -55,7 +55,7 @@ One owner doc per concept; link instead of duplicating; delete docs with no dist
 ## Update checklist
 
 - Fix links you touched; keep `DOCUMENTATION-INDEX.md` in sync when adding a new “first stop.”
-- Theme changes: update `theme/finarc-theme.css` **and** `theme-and-tokens.md` when semantics change.
+- Theme changes: update `app/theme/finarc-theme.css` **and** `theme-and-tokens.md` when semantics change.
 
 ---
 

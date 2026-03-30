@@ -17,8 +17,8 @@
 | Command / file | What it does |
 |----------------|----------------|
 | `npm run dev:setup` | Node version check + `npm install` |
-| `start.bat` | Windows CMD: install if needed, then `npm run dev` |
-| `start.ps1` | PowerShell: same |
+| `scripts/start.bat` | Windows CMD: install if needed, then `npm run dev` |
+| `scripts/start.ps1` | PowerShell: same |
 | `npm run dev` | Next.js dev server (Turbopack) |
 | `npm run build` | Production build |
 | `npm run deploy` | `next build` then `npx vercel` (preview URL) |
