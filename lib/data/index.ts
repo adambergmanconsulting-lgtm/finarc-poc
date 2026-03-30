@@ -2,7 +2,14 @@ import type { FinArcDataSource } from "./adapters/types";
 import { createMockFinArcDataSource } from "./adapters/mock";
 import type { FinArcSnapshot } from "./types";
 
-export type { FinArcSnapshot, BaselinePeriod, ForecastStub, PillarAmounts, PeriodId } from "./types";
+export type {
+  FinArcSnapshot,
+  BaselinePeriod,
+  ForecastStub,
+  PillarAmounts,
+  PeriodId,
+  TrendPoint,
+} from "./types";
 export type { FinArcDataSource } from "./adapters/types";
 export { createMockFinArcDataSource } from "./adapters/mock";
 

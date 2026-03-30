@@ -30,13 +30,24 @@ export interface ForecastStub {
   series?: Partial<Record<PeriodId, PillarAmounts>>;
 }
 
+export interface TrendPoint {
+  periodId: PeriodId;
+  revenueUsd: number;
+  techSpendUsd: number;
+  deliveries: number;
+}
+
 export interface FinArcSnapshot {
   schemaVersion: "finarc.snapshot.v1";
   generatedAt: string;
   baseline: BaselinePeriod;
   forecastStub: ForecastStub;
+  /** Recent periods for charts (monthly stubs); last row should align with `baseline` for PoC. */
+  trendHistory?: TrendPoint[];
   /** Opaque hook for FOCUS-aligned row payloads later — keep out of UI until normalized. */
   meta?: {
     focusDatasetHint?: string;
+    /** Pre-computed leadership alert line for US-02. */
+    topAnomalySummary?: string;
   };
 }
