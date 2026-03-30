@@ -6,6 +6,10 @@ import { useFinArcStore } from "@/lib/finarc-store";
 import { CurrencySwitcher } from "./currency-switcher";
 import { ExecutiveSummary } from "./executive-summary";
 import { LeverPlayground } from "./lever-playground";
+import { ExecutiveReportExport } from "./executive-report-export";
+import { InsightsBar } from "./insights-bar";
+import { RecommendationsPanel } from "./recommendations-panel";
+import { ScenarioCompare } from "./scenario-compare";
 import { SourceDataCloudPanel } from "./source-data-cloud";
 import { TrendChart } from "./trend-chart";
 
@@ -56,6 +60,14 @@ export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSna
         </section>
 
         <LeverPlayground snapshot={active} />
+
+        <ScenarioCompare snapshot={active} />
+
+        <RecommendationsPanel snapshot={active} />
+
+        <InsightsBar snapshot={active} />
+
+        <ExecutiveReportExport snapshot={active} />
       </main>
     </div>
   );

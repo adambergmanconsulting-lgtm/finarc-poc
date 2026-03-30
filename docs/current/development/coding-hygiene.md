@@ -37,7 +37,9 @@ Adjust paths when the Next.js app is scaffolded; keep this table updated.
 | Zustand store: levers, baseline vs scenarios | `stores/` or `lib/store/` |
 | Lever state + defaults | `lib/levers.ts` |
 | Horizon presets | `lib/horizons.ts` |
-| Scenario / projection output | `lib/projection.ts` (`projectScenario` → **`ProjectionResult`**) |
+| Scenario / projection output | `lib/projection.ts` (`projectScenario`, **`scenarioMonthlyMetrics`**) |
+| Recommendations (rule-based) | `lib/recommendations.ts` |
+| NL insights (keyword rules) | `lib/insights.ts` |
 | Executive export payload | `lib/report.ts` |
 | Pure calculations from snapshot + lever deltas | Prefer **`lib`** **modules** above; add `lib/calculations/` only if logic outgrows **metrics** / **projection** |
 | Backing data / integrations | **`getFinArcSnapshot()`** from `lib/data`; new sources = `lib/data/adapters/<name>/` |

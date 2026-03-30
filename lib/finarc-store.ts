@@ -10,17 +10,23 @@ export interface FinArcStoreState {
   horizonId: HorizonId;
   /** Display only — snapshot amounts stay in SEK; EUR/USD use mock FX in `lib/currency.ts`. */
   displayCurrency: CurrencyCode;
+  /** Saved Scenario A for US-10 compare; `null` until user saves. */
+  scenarioALevers: LeverState | null;
   setSnapshot: (snapshot: FinArcSnapshot) => void;
   setLevers: (partial: Partial<LeverState>) => void;
   setHorizonId: (id: HorizonId) => void;
   setDisplayCurrency: (c: CurrencyCode) => void;
+  saveScenarioA: () => void;
+  clearScenarioA: () => void;
+  resetLeversToBaseline: () => void;
 }
 
-export const useFinArcStore = create<FinArcStoreState>((set) => ({
+export const useFinArcStore = create<FinArcStoreState>((set, get) => ({
   snapshot: null,
   levers: DEFAULT_LEVER_STATE,
   horizonId: "12m",
   displayCurrency: "SEK",
+  scenarioALevers: null,
   setSnapshot: (snapshot) => set({ snapshot }),
   setLevers: (partial) =>
     set((s) => ({
@@ -28,4 +34,7 @@ export const useFinArcStore = create<FinArcStoreState>((set) => ({
     })),
   setHorizonId: (horizonId) => set({ horizonId }),
   setDisplayCurrency: (displayCurrency) => set({ displayCurrency }),
+  saveScenarioA: () => set({ scenarioALevers: { ...get().levers } }),
+  clearScenarioA: () => set({ scenarioALevers: null }),
+  resetLeversToBaseline: () => set({ levers: { ...DEFAULT_LEVER_STATE } }),
 }));
