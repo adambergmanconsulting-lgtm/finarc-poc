@@ -1,5 +1,7 @@
 # FinArc POC
 
+**Repository:** [github.com/adambergmanconsulting-lgtm/finarc-poc](https://github.com/adambergmanconsulting-lgtm/finarc-poc)
+
 Unified financial observability — Next.js proof of concept. Product requirements live under [`docs/current/specifications/SPEC.md`](docs/current/specifications/SPEC.md).
 
 ## Quick start
