@@ -6,6 +6,14 @@
 
 ---
 
+## Visual direction (suggested)
+
+- **Mood:** Nordic-inspired **dark** shell — calm, analytical, low glare for long sessions; avoid neon “crypto” fintech tropes.
+- **Palette:** Cool **blue-gray** surfaces, **teal–cyan** primary (actions, links, key series), **muted** secondary text; reserve **green/red** semantics for margin up/down and alerts only.
+- **Type:** **Inter** (via `next/font`) for UI; use **tabular figures** (`font-variant-numeric: tabular-nums`) on money and KPI rows when you build tables.
+- **Density:** Prefer clear hierarchy (one strong KPI row, then charts) over decorative chrome; finance users scan numbers first.
+- **Brand:** `public/finarc-logo.png` and `public/finarc-mark.svg` are **fictional** PoC assets — replace for production.
+
 ## Philosophy
 
 - **One source of truth for color and radius:** `app/theme/finarc-theme.css`.

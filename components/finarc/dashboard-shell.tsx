@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import type { FinArcSnapshot } from "@/lib/data";
 import { useFinArcStore } from "@/lib/finarc-store";
@@ -34,16 +35,25 @@ export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSna
   return (
     <div className="min-h-screen bg-[hsl(var(--background))]">
       <header className="flex flex-col gap-4 border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
-            FinArc
-          </h1>
-          <p className="text-sm text-[hsl(var(--muted-foreground))]">
-            Digital technology economics — {active.baseline.periodId} (mock data, SEK-native)
-            {scenarioPresetId === "azure_uncontrolled" ? (
-              <span className="text-[hsl(var(--warning))]"> · Azure stress preset</span>
-            ) : null}
-          </p>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/finarc-logo.png"
+            alt=""
+            width={40}
+            height={40}
+            className="shrink-0 rounded-lg shadow-md shadow-black/15"
+          />
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+              FinArc
+            </h1>
+            <p className="text-sm text-[hsl(var(--muted-foreground))]">
+              Digital technology economics — {active.baseline.periodId} (mock data, SEK-native)
+              {scenarioPresetId === "azure_uncontrolled" ? (
+                <span className="text-[hsl(var(--warning))]"> · Azure stress preset</span>
+              ) : null}
+            </p>
+          </div>
         </div>
         <CurrencySwitcher />
       </header>

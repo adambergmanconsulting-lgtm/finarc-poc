@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FinArc fictional mark: arc + bars -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+  <rect width="40" height="40" rx="8" fill="hsl(222 40% 12%)"/>
+  <path
+    d="M8 26 Q20 10 32 26"
+    stroke="hsl(187 65% 48%)"
+    stroke-width="2"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <rect x="11" y="22" width="3" height="6" rx="1" fill="hsl(215 15% 62%)"/>
+  <rect x="18.5" y="18" width="3" height="10" rx="1" fill="hsl(210 20% 85%)"/>
+  <rect x="26" y="14" width="3" height="14" rx="1" fill="hsl(210 20% 92%)"/>
+</svg>
