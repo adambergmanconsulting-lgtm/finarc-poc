@@ -192,7 +192,7 @@ Use a **clean FOCUS-aligned JSON structure** with **historical** month(s) plus *
 
 ### Pillars (richer granularity)
 
-- **Cloud (Azure):** VMs (G5 rightsizing potential + RI/Savings Plan coverage), Storage, Egress, Region (with mock carbon intensity).
+- **Cloud (Azure):** VMs (G5 rightsizing potential + RI/Savings Plan coverage), Storage, Egress, Region (with mock carbon intensity). Optional **`baseline.cloudBreakdown`** exposes **line-item** rows (compute, PaaS DB, storage, egress, etc.) so the UI can show **source-shaped** detail; sums must tie to the **Cloud** pillar total.
 - **AI/LLM:** Token usage by model (GPT-4, 4o-mini, o1-mini), usage type (inference, training, internal chat, customer query, code gen), provider.
 - **SaaS:** GitHub Copilot seats, Salesforce, Slack — utilization % where possible.
 - **Labor:** Engineering hours (Innovation vs Maintenance/Technical Debt) + fully loaded cost.

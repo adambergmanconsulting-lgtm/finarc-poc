@@ -9,6 +9,8 @@ export type {
   PillarAmounts,
   PeriodId,
   TrendPoint,
+  CloudLineItem,
+  CloudHostingBreakdown,
 } from "./types";
 export type { FinArcDataSource } from "./adapters/types";
 export { createMockFinArcDataSource } from "./adapters/mock";

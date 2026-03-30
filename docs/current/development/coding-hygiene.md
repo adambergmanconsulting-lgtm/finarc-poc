@@ -19,6 +19,7 @@
 | KPI definitions (digital margin, cost per delivery, savings) | `lib/metrics.ts` — consumed by UI, **projection**, and **export** |
 | Domain snapshot + mock data | `lib/data` — types + **`FinArcDataSource`**; amounts **SEK**-canonical; fake literals only in `lib/data/adapters/mock/` ([SPEC §3](../specifications/SPEC.md)) |
 | Display currency (SEK / EUR / USD) | `lib/currency.ts` + Zustand **`displayCurrency`** — not duplicated in components |
+| Azure / cloud line items vs pillar total | `baseline.cloudBreakdown` + `lib/cloud-breakdown.ts` (**sum check**) |
 | User-facing strings for levers / tooltips | Optional `lib/copy.ts` or colocated `messages` object — avoid scattering literals |
 
 **Before adding:** Search for an existing helper or token; extend instead of copying.

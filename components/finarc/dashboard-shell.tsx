@@ -6,6 +6,7 @@ import { useFinArcStore } from "@/lib/finarc-store";
 import { CurrencySwitcher } from "./currency-switcher";
 import { ExecutiveSummary } from "./executive-summary";
 import { LeverPlayground } from "./lever-playground";
+import { SourceDataCloudPanel } from "./source-data-cloud";
 import { TrendChart } from "./trend-chart";
 
 export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSnapshot }) {
@@ -36,6 +37,12 @@ export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSna
 
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6">
         <ExecutiveSummary snapshot={active} />
+
+        <SourceDataCloudPanel
+          cloudTotalSek={active.baseline.pillars.cloud}
+          breakdown={active.baseline.cloudBreakdown}
+          displayCurrency={displayCurrency}
+        />
 
         <section className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6">
           <h2 className="text-lg font-semibold tracking-tight text-[hsl(var(--foreground))]">

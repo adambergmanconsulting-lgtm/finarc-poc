@@ -16,6 +16,42 @@ export const MOCK_FINARC_SNAPSHOT: FinArcSnapshot = {
       saas: 392_000,
       labor: 2_109_000,
     },
+    cloudBreakdown: {
+      provider: "azure",
+      regionSummary: "West Europe (primary) · North Europe (DR)",
+      lines: [
+        {
+          id: "compute-vm",
+          label: "Compute — VMs & scale sets",
+          amount: 720_000,
+          detail: "Production G-family; rightsizing opportunity ~12% on batch workers",
+        },
+        {
+          id: "paas-db",
+          label: "PaaS — Azure SQL & Cosmos",
+          amount: 220_000,
+          detail: "OLTP + analytics replicas",
+        },
+        {
+          id: "storage",
+          label: "Storage — blob & files",
+          amount: 185_000,
+          detail: "Hot + cool tiers; lifecycle policies partial",
+        },
+        {
+          id: "egress",
+          label: "Network — egress & CDN",
+          amount: 142_000,
+          detail: "Cross-region replication + CDN to storefront",
+        },
+        {
+          id: "ops",
+          label: "Monitoring, backup & automation",
+          amount: 100_000,
+          detail: "Log Analytics workspace, Backup vault",
+        },
+      ],
+    },
     outcomes: {
       deliveries: 1_240_000,
       revenue: 450_000_000,

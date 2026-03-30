@@ -16,11 +16,34 @@ export interface PillarAmounts {
   labor: number;
 }
 
+/**
+ * Granular **cloud** cost rows (e.g. Azure) — maps from vendor exports / CM APIs into one place.
+ * Sum of `lines[].amount` should match `pillars.cloud` when the adapter is consistent.
+ */
+export interface CloudLineItem {
+  id: string;
+  label: string;
+  /** Amount in canonical currency (same as baseline). */
+  amount: number;
+  /** Sub-attributes: region, meter category, rightsizing note, etc. */
+  detail?: string;
+}
+
+export interface CloudHostingBreakdown {
+  /** e.g. `azure`, `gcp` — display label can capitalize. */
+  provider: string;
+  /** Primary region or “multi-region” for narrative. */
+  regionSummary?: string;
+  lines: CloudLineItem[];
+}
+
 export interface BaselinePeriod {
   periodId: PeriodId;
   /** Stored amounts (pillars, revenue) use this currency — PoC uses **SEK** for Nordics. */
   currency: CurrencyCode;
   pillars: PillarAmounts;
+  /** Optional drill-down so finance can see **hosting** parts without raw invoice CSV. */
+  cloudBreakdown?: CloudHostingBreakdown;
   outcomes: {
     deliveries: number;
     /** Revenue in same unit as `currency` (SEK in mock). */
