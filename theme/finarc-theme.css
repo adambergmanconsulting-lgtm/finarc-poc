@@ -1,0 +1,83 @@
+/**
+ * FinArc POC — global theme (CSS custom properties)
+ * Edit this file for quick restyle / rebrand. See docs/current/specifications/ux/theme-and-tokens.md
+ *
+ * Default: Nordic-inspired dark shell. Values use HSL components for shadcn/Tailwind-style hsl(var(--x)) mapping.
+ */
+
+:root {
+  /* Core surfaces — cool neutral dark */
+  --background: 222 47% 6%;
+  --foreground: 210 20% 98%;
+
+  --card: 222 40% 9%;
+  --card-foreground: 210 20% 98%;
+
+  --popover: 222 40% 10%;
+  --popover-foreground: 210 20% 98%;
+
+  /* Brand / actions — restrained cyan-blue */
+  --primary: 187 65% 48%;
+  --primary-foreground: 222 47% 6%;
+
+  --secondary: 217 25% 18%;
+  --secondary-foreground: 210 20% 95%;
+
+  --muted: 217 20% 15%;
+  --muted-foreground: 215 15% 62%;
+
+  --accent: 217 30% 16%;
+  --accent-foreground: 210 20% 95%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 210 20% 98%;
+
+  --border: 217 22% 18%;
+  --input: 217 22% 18%;
+  --ring: 187 65% 48%;
+
+  --radius: 0.5rem;
+
+  /* Finance semantics (use in KPIs, deltas, alerts) */
+  --positive: 152 55% 42%;
+  --positive-foreground: 152 40% 96%;
+  --negative: 0 72% 51%;
+  --negative-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 222 47% 8%;
+
+  /* Chart series — distinct on dark bg */
+  --chart-1: 187 65% 52%;
+  --chart-2: 265 75% 62%;
+  --chart-3: 45 90% 55%;
+  --chart-4: 152 50% 48%;
+  --chart-5: 340 70% 58%;
+}
+
+/* Optional: light theme later — toggle via .light on html or data-theme="light" */
+.light {
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 187 70% 38%;
+  --primary-foreground: 210 20% 98%;
+
+  --secondary: 210 25% 93%;
+  --secondary-foreground: 222 40% 15%;
+
+  --muted: 210 20% 94%;
+  --muted-foreground: 220 12% 40%;
+
+  --accent: 210 25% 93%;
+  --accent-foreground: 222 40% 15%;
+
+  --border: 214 20% 88%;
+  --input: 214 20% 88%;
+  --ring: 187 70% 38%;
+}
