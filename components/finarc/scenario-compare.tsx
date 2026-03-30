@@ -94,11 +94,25 @@ export function ScenarioCompare({ snapshot }: { snapshot: FinArcSnapshot }) {
                 )}
               </td>
             </tr>
-            <tr>
-              <td className="py-2.5 pr-4">AI lever (saved scenario)</td>
+            <tr className="border-b border-[hsl(var(--border))]/70">
+              <td className="py-2.5 pr-4">AI → smaller models</td>
               <td className="py-2.5 pr-4 tabular-nums">{DEFAULT_LEVER_STATE.aiShiftToSmallerModelsPct}%</td>
               <td className="py-2.5 tabular-nums">
                 {scenarioALevers ? `${scenarioALevers.aiShiftToSmallerModelsPct}%` : "—"}
+              </td>
+            </tr>
+            <tr className="border-b border-[hsl(var(--border))]/70">
+              <td className="py-2.5 pr-4">Azure commitment coverage</td>
+              <td className="py-2.5 pr-4 tabular-nums">{DEFAULT_LEVER_STATE.azureCommitCoveragePct}%</td>
+              <td className="py-2.5 tabular-nums">
+                {scenarioALevers ? `${scenarioALevers.azureCommitCoveragePct}%` : "—"}
+              </td>
+            </tr>
+            <tr>
+              <td className="py-2.5 pr-4">Azure rightsizing / governance</td>
+              <td className="py-2.5 pr-4 tabular-nums">{DEFAULT_LEVER_STATE.azureRightsizingGovernancePct}%</td>
+              <td className="py-2.5 tabular-nums">
+                {scenarioALevers ? `${scenarioALevers.azureRightsizingGovernancePct}%` : "—"}
               </td>
             </tr>
           </tbody>

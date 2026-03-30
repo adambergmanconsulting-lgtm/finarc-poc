@@ -12,14 +12,32 @@ export function buildRecommendations(
 ): string[] {
   const fmt = (sek: number) => formatCurrencyAmount(sek, displayCurrency);
   const lines: string[] = [];
+  const stress = snapshot.meta?.scenarioStress;
 
   if (snapshot.meta?.topAnomalySummary) {
     lines.push(`Priority look: ${snapshot.meta.topAnomalySummary}`);
   }
 
-  if (levers.aiShiftToSmallerModelsPct < 20 && projection.headlineSavings > 0) {
+  if (stress) {
+    const half = projection.forecastUncertaintyHalfWidthAnnualSek;
+    if (levers.azureCommitCoveragePct < 35) {
+      lines.push(
+        `Azure predictability: raise commitment coverage — at current levers the mock annualized forecast band is about ±${fmt(half)}; increasing coverage narrows surprise risk for close.`,
+      );
+    } else if (levers.azureRightsizingGovernancePct < 35) {
+      lines.push(
+        "Azure: commitment is helping — add rightsizing and tagging discipline so runaway spend does not hide in untagged subscriptions and idle SKUs.",
+      );
+    } else {
+      lines.push(
+        `Azure stress (mock): governance + commitments suggest ~${fmt(projection.cloudAnnualizedSavingsSek)} annualized cloud-side savings and a tighter forecast band for CFO narrative.`,
+      );
+    }
+  }
+
+  if (levers.aiShiftToSmallerModelsPct < 25) {
     lines.push(
-      `AI mix: you are at ${levers.aiShiftToSmallerModelsPct}% shift to smaller models — mock run suggests up to ${fmt(projection.headlineSavings)} over the selected horizon if you increase the lever.`,
+      `AI mix: ${levers.aiShiftToSmallerModelsPct}% shifted to smaller models — mock bundle (AI + cloud levers) projects ${fmt(projection.headlineSavings)} over the selected horizon.`,
     );
   } else if (levers.aiShiftToSmallerModelsPct >= 40) {
     lines.push(

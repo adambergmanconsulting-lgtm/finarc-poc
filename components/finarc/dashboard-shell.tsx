@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { FinArcSnapshot } from "@/lib/data";
 import { useFinArcStore } from "@/lib/finarc-store";
+import { applyScenarioPreset } from "@/lib/scenario-presets";
 import { CurrencySwitcher } from "./currency-switcher";
 import { ExecutiveSummary } from "./executive-summary";
 import { LeverPlayground } from "./lever-playground";
@@ -16,12 +17,17 @@ import { TrendChart } from "./trend-chart";
 export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSnapshot }) {
   const snapshot = useFinArcStore((s) => s.snapshot);
   const setSnapshot = useFinArcStore((s) => s.setSnapshot);
+  const scenarioPresetId = useFinArcStore((s) => s.scenarioPresetId);
 
   useEffect(() => {
     setSnapshot(initialSnapshot);
   }, [initialSnapshot, setSnapshot]);
 
-  const active = snapshot ?? initialSnapshot;
+  const raw = snapshot ?? initialSnapshot;
+  const active = useMemo(
+    () => applyScenarioPreset(raw, scenarioPresetId),
+    [raw, scenarioPresetId],
+  );
   const trend = active.trendHistory?.length ? active.trendHistory : [];
   const displayCurrency = useFinArcStore((s) => s.displayCurrency);
 
@@ -33,7 +39,10 @@ export function DashboardShell({ initialSnapshot }: { initialSnapshot: FinArcSna
             FinArc
           </h1>
           <p className="text-sm text-[hsl(var(--muted-foreground))]">
-            Digital technology economics — baseline {active.baseline.periodId} (mock data, SEK-native)
+            Digital technology economics — {active.baseline.periodId} (mock data, SEK-native)
+            {scenarioPresetId === "azure_uncontrolled" ? (
+              <span className="text-[hsl(var(--warning))]"> · Azure stress preset</span>
+            ) : null}
           </p>
         </div>
         <CurrencySwitcher />

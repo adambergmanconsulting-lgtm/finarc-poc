@@ -127,6 +127,7 @@ User stories anchor **scope** and **demo scripts**: each should be demonstrable 
 | US-08 | P0 | **As** Astrid, **I want** projections to update immediately when I move levers **so that** the scenario feels **interactive and trustworthy**. |
 | US-09 | P1 | **As** Astrid, **I want** a free-text “custom what-if” field **so that** I can explore a plausible executive question without new UI. |
 | US-14 | P1 | **As** Astrid, **I want** to set a **planning horizon** (from **near-term months** through **multi-year**) and optional **financial targets** (e.g. **digital margin**, **tech OpEx** run-rate, **cost per delivery**) **so that** I can **tweak strategies** via levers and see whether the **projection** **bridges** to those **targets** — supporting **rolling forecast** and **long-range plan** narratives, not only the **current quarter**. |
+| US-15 | P0 | **As** Astrid, **I want** to load a **stress preset** (e.g. **uncontrolled Azure** growth + **SaaS sprawl**) **so that** I can show **finance** how **unpredictable** digital spend can get — then **tune** levers to a **tamer** forecast narrative. |
 
 #### Comparison & narrative
 
@@ -142,7 +143,23 @@ User stories anchor **scope** and **demo scripts**: each should be demonstrable 
 |----|----------|--------|
 | US-13 | P0 | **As** Astrid, **I want** to export a one-page **Executive Impact Report** (figures + short narrative: quarterly savings, digital margin) **so that** I can share with CFO/CIO without rebuilding a deck. |
 
-**Mapping to the 90-second success metric:** US-01, US-02, US-05, US-07, US-08, US-10, US-13 are the **minimum story set** to hit spot waste → adjust levers → compare → export. **US-14** adds **multi-horizon** **target** **projection** for **strategic** / **FP&A** demos (optional **longer** script).
+**Mapping to the 90-second success metric:** US-01, US-02, US-05, US-07, US-08, US-10, US-13 are the **minimum story set** to hit spot waste → adjust levers → compare → export. **US-15** adds **stress → tame** (Azure-first) for **variance / predictability** storytelling. **US-14** adds **multi-horizon** **target** **projection** for **strategic** / **FP&A** demos (optional **longer** script).
+
+#### Stress scenarios & “taming” levers (US-15)
+
+The PoC should support at least one **scary-but-plausible** view where **cost growth** and **forecast error** are **worse than baseline**, then let Astrid **dial in** management actions that **narrow uncertainty** and **recover savings** (mock math only).
+
+| Stress narrative (finance language) | What moves in the mock | Tame with (product levers / decisions) |
+|-------------------------------------|-------------------------|----------------------------------------|
+| **Azure runaway** — compute/egress scaling ahead of governance | Higher **Cloud** pillar + **cloudBreakdown** scaled; **wider** annualized **forecast uncertainty** band | **Commitment coverage** (RI / savings plan style), **rightsizing + tagging / governance** |
+| **SaaS sprawl** (companion signal) | Slightly higher **SaaS** pillar in the same preset | Narrative + future **seat hygiene** lever (roadmap); PoC may **signal** via copy only |
+| **Baseline** | Adapter **unchanged**; optional small default uncertainty | Same levers show incremental improvement vs **steady** state |
+
+**Implementation notes (PoC):**
+
+- **Preset** is a **client-side transform** of the canonical mock snapshot (`applyScenarioPreset`) so the adapter stays a **single** source of literal numbers; **stress metadata** (`meta.scenarioStress`) drives **uncertainty** before levers dampen it.
+- **`projectScenario`** returns **headline savings** (AI + Azure levers) and **`forecastUncertaintyHalfWidthAnnualSek`** (mock **half-width** per year) for KPI / report copy.
+- **Roadmap** (not required for PoC): additional stress packs (**FX** on USD renewals, **contractor** rate inflation, **payout pressure** vs reinvest) each mapped to explicit levers.
 
 ---
 
@@ -226,7 +243,8 @@ Keep **seams** narrow so the PoC does **not** sprawl, but **future** work has **
 | **`lib/metrics.ts`** | Pure **KPI** helpers (**total spend**, **CpD**, **spend/revenue**) | Richer **definitions**, **segment** splits — **UI** still imports **one** module |
 | **`lib/levers.ts`** | **`LeverState`** + **defaults** (add fields as sliders appear) | Validation, **presets**, **saved** scenarios |
 | **`lib/horizons.ts`** | **`HORIZON_PRESETS`** (no arbitrary ranges in v1) | More **presets**, **fiscal** **calendar** |
-| **`lib/projection.ts`** | **`projectScenario()`** stub returning **`ProjectionResult`** | Swap **internals** for real **formulas**, **Monte Carlo**, or **service** call — **signature** stable |
+| **`lib/scenario-presets.ts`** | **`ScenarioPresetId`**, **`applyScenarioPreset()`** — stress view over mock snapshot | More presets, **fiscal** alignment, adapter-driven variants |
+| **`lib/projection.ts`** | **`projectScenario()`** returning **`ProjectionResult`** (savings + **uncertainty** half-width) | Swap **internals** for real **formulas**, **Monte Carlo**, or **service** call — **signature** stable |
 | **`lib/report.ts`** | **`ExecutiveReportPayload`** + thin **builder** | **PDF** service, **email**, **CMS** — **layout** consumes **payload**, not **React** |
 | **`store/`** (when added) | Zustand holds **levers** + **UI** state **only** | **Hydration**, **undo**, **collab** — **not** raw **adapter** **calls** in components |
 | **Copy / NL** | Optional **`lib/copy.ts`** or colocated **templates** | **i18n**, **LLM** **prompts** fed from **`ProjectionResult`** + **metrics** |
@@ -270,6 +288,8 @@ Real-time, draggable levers with instant recalculation. Include **planning horiz
 | Lever | Examples |
 |-------|----------|
 | AI / LLM | Switch X% of high-cost inference to smaller models / SLM |
+| Azure (predictability) | **Commitment coverage** (RI / savings plan) — discount + **lower forecast variance** (mock) |
+| Azure (waste) | **Rightsizing + governance** (tagging, idle capacity) — trims runaway compute (mock) |
 | Labor | Reduce Technical Debt allocation by X% (frees engineering capacity) |
 | Cloud | Right-size VMs or move workloads to lower-cost / lower-carbon regions |
 | Network | Optimize Egress (CDN/compression simulation) |
@@ -312,7 +332,7 @@ These **implementation** choices reduce scope **without** changing the **product
 |------|---------------------|
 | **Surface** | **One** primary **page** (single scroll with sections, or **one** route). **§4.E** “additional screens” are **post-PoC** unless time is left over. |
 | **Data** | **One** **baseline** period + **simple** forecast math (hand-tuned formula or linear stub). **Flattened** mock JSON — **not** a full **FOCUS** ingest model. **Pillars**: enough rows to **demo** drill-down; **not** full **Azure** SKU fidelity. |
-| **Levers** | **3–5** sliders in **v1** (subset of the lever table). **US-09** custom what-if = **keyword/echo stub** or **defer** if it blocks ship. |
+| **Levers** | **3–5** sliders in **v1** (AI shift + **2 Azure** taming levers + horizon). **US-09** custom what-if = **keyword/echo stub** or **defer** if it blocks ship. **US-15** stress preset = **transform** on mock snapshot, not a second adapter file. |
 | **Scenarios** | **Baseline + one** alternate (**Scenario A**) for compare; **second** scenario (**B**) = **P1**. **Persistence** = **in-memory** or **localStorage** only. |
 | **Horizon / targets (US-14)** | **Preset** horizons only (e.g. **12 months**, **3 years**) + at most **one** optional **target** field — **not** arbitrary date ranges or a full **bridge** **waterfall** chart in v1. |
 | **Charts** | **One** trend + **one** pillar view (donut or stacked bar). Skip extra chart types until **P0** feels **solid**. |

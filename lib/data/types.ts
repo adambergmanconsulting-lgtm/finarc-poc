@@ -79,5 +79,14 @@ export interface FinArcSnapshot {
     focusDatasetHint?: string;
     /** Pre-computed leadership alert line for US-02. */
     topAnomalySummary?: string;
+    /**
+     * Present when the UI applies a **stress preset** (e.g. uncontrolled Azure growth).
+     * Drives mock **forecast uncertainty** before Azure “taming” levers dampen it.
+     */
+    scenarioStress?: {
+      presetId: "azure_uncontrolled";
+      /** Annualized uncertainty band (SEK), reduced by commitment / governance levers in `projectScenario`. */
+      baseForecastUncertaintyAnnualSek: number;
+    };
   };
 }

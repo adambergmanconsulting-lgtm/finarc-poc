@@ -40,6 +40,9 @@ export function buildExecutiveReportPayload(
     lines.push(
       `Projected savings (current levers, mock horizon): ${formatCurrencyAmount(opts.projection.headlineSavings, display)}.`,
     );
+    lines.push(
+      `Forecast uncertainty (mock annual half-width): ±${formatCurrencyAmount(opts.projection.forecastUncertaintyHalfWidthAnnualSek, display)}.`,
+    );
   }
 
   return {
